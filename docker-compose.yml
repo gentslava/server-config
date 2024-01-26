@@ -32,7 +32,7 @@ services:
         restart: unless-stopped
 
     homeassistant:
-        container_name: homeassistant
+        container_name: homeassistant-test
         image: ghcr.io/home-assistant/odroid-c2-homeassistant:stable
         volumes:
             - ~/.hassio/config:/config
