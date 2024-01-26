@@ -34,6 +34,8 @@ services:
     homeassistant:
         container_name: homeassistant-test
         image: ghcr.io/home-assistant/odroid-c2-homeassistant:stable
+        environment:
+            - TZ=Asia/Novosibirsk
         volumes:
             - ~/.hassio/config:/config
             - /etc/localtime:/etc/localtime:ro
