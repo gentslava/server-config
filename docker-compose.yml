@@ -30,3 +30,14 @@ services:
         ports:
             - 9117:9117
         restart: unless-stopped
+
+    homeassistant:
+        container_name: homeassistant
+        image: ghcr.io/home-assistant/odroid-c2-homeassistant:stable
+        volumes:
+            - ~/.hassio/config:/config
+            - /etc/localtime:/etc/localtime:ro
+            - /run/dbus:/run/dbus:ro
+        restart: unless-stopped
+        privileged: true
+        network_mode: host
