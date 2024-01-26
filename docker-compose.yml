@@ -21,7 +21,7 @@ services:
         environment:
             - PUID=1000
             - PGID=1000
-            - TZ=Etc/UTC
+            - TZ=Asia/Novosibirsk
             - AUTO_UPDATE=true
             - RUN_OPTS= #optional
         volumes:
