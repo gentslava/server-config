@@ -1,81 +1,81 @@
 version: '3.3'
 services:
-    traefik:
-        image: traefik
-        container_name: traefik
-        command:
-        #- --log.level=DEBUG"
-        - --api.insecure=true
-        - --providers.docker=true
-        - --providers.docker.exposedbydefault=false
-        - --entrypoints.web.address=:80
-        ports:
-        - 80:80
-        - 8080:8080
-        volumes:
-        - /var/run/docker.sock:/var/run/docker.sock:ro
-        - ~/.traefik/config.yaml:/etc/traefik/traefik.yml
+  traefik:
+    image: traefik
+    container_name: traefik
+    command:
+    #- --log.level=DEBUG"
+    - --api.insecure=true
+    - --providers.docker=true
+    - --providers.docker.exposedbydefault=false
+    - --entrypoints.web.address=:80
+    ports:
+    - 80:80
+    - 8080:8080
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    - ~/.traefik/config.yaml:/etc/traefik/traefik.yml
 
-    whoami:
-        image: traefik/whoami
-        container_name: traefik-whoami
-        labels:
-        - traefik.enable=true
-        - traefik.http.routers.whoami.rule=Host(`gentslava.ru`)
-        - traefik.http.routers.whoami.entrypoints=web
+  whoami:
+    image: traefik/whoami
+    container_name: traefik-whoami
+    labels:
+    - traefik.enable=true
+    - traefik.http.routers.whoami.rule=Host(`gentslava.ru`)
+    - traefik.http.routers.whoami.entrypoints=web
 
-    torrserver:
-        image: ghcr.io/yourok/torrserver
-        container_name: torrserver
-        environment:
-            - TS_PORT=8090
-            - TS_DONTKILL=1
-            - TS_HTTPAUTH=0
-            - TS_CONF_PATH=/opt/ts/config
-            - TS_TORR_DIR=/opt/ts/torrents
-        volumes:
-            - ~/.torrserver/:/opt/ts
-        ports:
-            - 8090:8090
-        restart: unless-stopped
+  torrserver:
+    image: ghcr.io/yourok/torrserver
+    container_name: torrserver
+    environment:
+      - TS_PORT=8090
+      - TS_DONTKILL=1
+      - TS_HTTPAUTH=0
+      - TS_CONF_PATH=/opt/ts/config
+      - TS_TORR_DIR=/opt/ts/torrents
+    volumes:
+      - ~/.torrserver/:/opt/ts
+    ports:
+      - 8090:8090
+    restart: unless-stopped
 
-    jackett:
-        image: lscr.io/linuxserver/jackett:latest
-        container_name: jackett
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=Asia/Novosibirsk
-            - AUTO_UPDATE=true
-            - RUN_OPTS= #optional
-        volumes:
-            - ~/.jackett/config:/config
-            - ~/.jackett/downloads:/downloads
-        ports:
-            - 9117:9117
-        restart: unless-stopped
+  jackett:
+    image: lscr.io/linuxserver/jackett:latest
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Novosibirsk
+      - AUTO_UPDATE=true
+      - RUN_OPTS= #optional
+    volumes:
+      - ~/.jackett/config:/config
+      - ~/.jackett/downloads:/downloads
+    ports:
+      - 9117:9117
+    restart: unless-stopped
 
-    go2rtc:
-        image: alexxit/go2rtc
-        network_mode: host       # important for WebRTC, HomeKit, UDP cameras
-        privileged: true         # only for FFmpeg hardware transcoding
-        restart: unless-stopped  # autorestart on fail or config change from WebUI
-        environment:
-            - TZ=Asia/Novosibirsk  # timezone in logs
-        volumes:
-            - "~/go2rtc:/config"   # folder for go2rtc.yaml file (edit from WebUI)
+  go2rtc:
+    image: alexxit/go2rtc
+    network_mode: host       # important for WebRTC, HomeKit, UDP cameras
+    privileged: true         # only for FFmpeg hardware transcoding
+    restart: unless-stopped  # autorestart on fail or config change from WebUI
+    environment:
+      - TZ=Asia/Novosibirsk  # timezone in logs
+    volumes:
+      - "~/go2rtc:/config"   # folder for go2rtc.yaml file (edit from WebUI)
 
-    homeassistant:
-        container_name: homeassistant-test
-        image: ghcr.io/home-assistant/odroid-c2-homeassistant:stable
-        environment:
-            - TZ=Asia/Novosibirsk
-        volumes:
-            - ~/.hassio/config:/config
-            - /etc/localtime:/etc/localtime:ro
-            - /run/dbus:/run/dbus:ro
-        ports:
-            - 8124:8124
-        restart: unless-stopped
-        privileged: true
-        network_mode: host
+  homeassistant:
+    container_name: homeassistant-test
+    image: ghcr.io/home-assistant/odroid-c2-homeassistant:stable
+    environment:
+      - TZ=Asia/Novosibirsk
+    volumes:
+      - ~/.hassio/config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    ports:
+      - 8124:8123
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
