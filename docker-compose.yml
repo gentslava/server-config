@@ -55,6 +55,16 @@ services:
             - 9117:9117
         restart: unless-stopped
 
+    go2rtc:
+        image: alexxit/go2rtc
+        network_mode: host       # important for WebRTC, HomeKit, UDP cameras
+        privileged: true         # only for FFmpeg hardware transcoding
+        restart: unless-stopped  # autorestart on fail or config change from WebUI
+        environment:
+            - TZ=Asia/Novosibirsk  # timezone in logs
+        volumes:
+            - "~/go2rtc:/config"   # folder for go2rtc.yaml file (edit from WebUI)
+
     homeassistant:
         container_name: homeassistant-test
         image: ghcr.io/home-assistant/odroid-c2-homeassistant:stable
