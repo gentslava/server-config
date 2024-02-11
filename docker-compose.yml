@@ -28,31 +28,31 @@ services:
     image: ghcr.io/yourok/torrserver
     container_name: torrserver
     environment:
-      - TS_PORT=8090
-      - TS_DONTKILL=1
-      - TS_HTTPAUTH=0
-      - TS_CONF_PATH=/opt/ts/config
-      - TS_TORR_DIR=/opt/ts/torrents
+    - TS_PORT=8090
+    - TS_DONTKILL=1
+    - TS_HTTPAUTH=0
+    - TS_CONF_PATH=/opt/ts/config
+    - TS_TORR_DIR=/opt/ts/torrents
     volumes:
-      - ~/.torrserver/:/opt/ts
+    - ~/.torrserver/:/opt/ts
     ports:
-      - 8090:8090
+    - 8090:8090
     restart: unless-stopped
 
   jackett:
     image: lscr.io/linuxserver/jackett:latest
     container_name: jackett
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Novosibirsk
-      - AUTO_UPDATE=true
-      - RUN_OPTS= #optional
+    - PUID=1000
+    - PGID=1000
+    - TZ=Asia/Novosibirsk
+    - AUTO_UPDATE=true
+    - RUN_OPTS= #optional
     volumes:
-      - ~/.jackett/config:/config
-      - ~/.jackett/downloads:/downloads
+    - ~/.jackett/config:/config
+    - ~/.jackett/downloads:/downloads
     ports:
-      - 9117:9117
+    - 9117:9117
     restart: unless-stopped
 
   go2rtc:
@@ -62,9 +62,25 @@ services:
     privileged: true         # only for FFmpeg hardware transcoding
     restart: unless-stopped  # autorestart on fail or config change from WebUI
     environment:
-      - TZ=Asia/Novosibirsk  # timezone in logs
+    - TZ=Asia/Novosibirsk  # timezone in logs
     volumes:
-      - "~/go2rtc:/config"   # folder for go2rtc.yaml file (edit from WebUI)
+    - "~/go2rtc:/config"   # folder for go2rtc.yaml file (edit from WebUI)
+
+  epicgames-freegames-node:
+    image: ghcr.io/claabs/epicgames-freegames-node:latest
+    container_name: epicgames-freegames-node
+    environment:
+    - TZ=Asia/Novosibirsk
+    volumes:
+    - ~/epicgames/:/usr/app/config:rw
+    ports:
+    - 6079:3000
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: 0.50
+          memory: 512M
 
   # homeassistant:
   #   container_name: homeassistant-test
