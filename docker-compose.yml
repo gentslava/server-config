@@ -79,8 +79,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.50'
-          memory: 512M
+          memory: 2G
 
   # homeassistant:
   #   container_name: homeassistant-test
