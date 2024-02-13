@@ -68,7 +68,7 @@ services:
 
   epicgames-freegames-node:
     image: ghcr.io/claabs/epicgames-freegames-node:latest
-    container_name: epicgames-freegames-node
+    container_name: epicgames-freegames
     environment:
     - TZ=Asia/Novosibirsk
     volumes:
