@@ -55,6 +55,17 @@ services:
     - 9117:9117
     restart: unless-stopped
 
+  jacred:
+    image: gentslava/jacred:latest
+    container_name: jacred
+    environment:
+    - TZ=Asia/Novosibirsk
+    volumes:
+    - ~/jacred/init.conf:/home/jacred/init.conf
+    ports:
+    - 9118:9117
+    restart: unless-stopped
+
   go2rtc:
     container_name: go2rtc
     image: alexxit/go2rtc
