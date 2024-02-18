@@ -65,6 +65,7 @@ services:
     ports:
     - 9118:9117
     restart: unless-stopped
+    privileged: true
 
   go2rtc:
     container_name: go2rtc
