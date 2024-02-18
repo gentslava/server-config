@@ -62,10 +62,16 @@ services:
     - TZ=Asia/Novosibirsk
     volumes:
     - ~/jacred/init.conf:/home/jacred/init.conf
+    - ~/jacred/Data:/home/jacred/Data
     ports:
     - 9118:9117
     restart: unless-stopped
     privileged: true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 2G
 
   go2rtc:
     container_name: go2rtc
