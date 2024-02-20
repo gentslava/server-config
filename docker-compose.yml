@@ -84,6 +84,25 @@ services:
     volumes:
       - "~/.go2rtc:/config"   # folder for go2rtc.yaml file (edit from WebUI)
 
+  frigate:
+    image: ghcr.io/blakeblackshear/frigate:stable
+    container_name: frigate
+    privileged: true # this may not be necessary for all setups
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /.frigate/config:/config
+      - /.frigate/media:/media/frigate
+      - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+    ports:
+      - "5000:5000"
+      - "8554:8554" # RTSP feeds
+      - "8555:8555/tcp" # WebRTC over tcp
+      - "8555:8555/udp" # WebRTC over udp
+
   epicgames-freegames-node:
     image: ghcr.io/claabs/epicgames-freegames-node:latest
     container_name: epicgames-freegames
