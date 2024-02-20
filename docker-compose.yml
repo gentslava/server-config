@@ -61,8 +61,8 @@ services:
     environment:
     - TZ=Asia/Novosibirsk
     volumes:
-    - ~/jacred/init.conf:/home/jacred/init.conf
-    - ~/jacred/Data:/home/jacred/Data
+    - ~/.jacred/init.conf:/home/jacred/init.conf
+    - ~/.jacred/Data:/home/jacred/Data
     ports:
     - 9118:9117
     restart: unless-stopped
@@ -82,7 +82,7 @@ services:
     environment:
     - TZ=Asia/Novosibirsk  # timezone in logs
     volumes:
-    - "~/go2rtc:/config"   # folder for go2rtc.yaml file (edit from WebUI)
+    - "~/.go2rtc:/config"   # folder for go2rtc.yaml file (edit from WebUI)
 
   epicgames-freegames-node:
     image: ghcr.io/claabs/epicgames-freegames-node:latest
@@ -90,7 +90,7 @@ services:
     environment:
     - TZ=Asia/Novosibirsk
     volumes:
-    - ~/epicgames/:/usr/app/config:rw
+    - ~/.epicgames/:/usr/app/config:rw
     ports:
     - 6079:3000
     restart: unless-stopped
@@ -105,7 +105,7 @@ services:
     environment:
       - TZ=Asia/Novosibirsk
     volumes:
-      - ~/hassio:/config
+      - ~/.hassio:/config
     ports:
       - 8124:8123
     restart: unless-stopped
