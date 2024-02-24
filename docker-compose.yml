@@ -39,8 +39,16 @@ services:
       - TS_TORR_DIR=/opt/ts/torrents
     volumes:
       - ~/.torrserver/:/opt/ts
-    ports:
-      - 8090:8090
+    expose:
+      - 8090
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.torrserver.entrypoints=websecure
+      - traefik.http.routers.torrserver.tls=true
+      - traefik.http.routers.torrserver.tls.certResolver=letsencrypt
+      - traefik.http.services.torrserver.loadbalancer.server.port=8090
+    networks:
+      - traefik
     restart: unless-stopped
 
   jackett:
