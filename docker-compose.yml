@@ -39,8 +39,6 @@ services:
       - TS_TORR_DIR=/opt/ts/torrents
     volumes:
       - ~/.torrserver/:/opt/ts
-    expose:
-      - 8090
     labels:
       - traefik.enable=true
       - traefik.http.routers.torrserver.entrypoints=websecure
@@ -63,22 +61,34 @@ services:
     volumes:
       - ~/.jackett/config:/config
       - ~/.jackett/downloads:/downloads
-    ports:
-      - 9117:9117
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jackett.entrypoints=websecure
+      - traefik.http.routers.jackett.tls=true
+      - traefik.http.routers.jackett.tls.certResolver=letsencrypt
+      - traefik.http.services.jackett.loadbalancer.server.port=9117
+    networks:
+      - traefik
     restart: unless-stopped
 
   jacred:
     image: gentslava/jacred:latest
     container_name: jacred
+    privileged: true
     environment:
       - TZ=Asia/Novosibirsk
     volumes:
       - ~/.jacred/init.conf:/home/jacred/init.conf
       - ~/.jacred/Data:/home/jacred/Data
-    ports:
-      - 9118:9117
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jacred.entrypoints=websecure
+      - traefik.http.routers.jacred.tls=true
+      - traefik.http.routers.jacred.tls.certResolver=letsencrypt
+      - traefik.http.services.jacred.loadbalancer.server.port=9117
+    networks:
+      - traefik
     restart: unless-stopped
-    privileged: true
     deploy:
       resources:
         limits:
@@ -88,19 +98,25 @@ services:
   go2rtc:
     image: alexxit/go2rtc
     container_name: go2rtc
-    network_mode: host       # important for WebRTC, HomeKit, UDP cameras
     privileged: true         # only for FFmpeg hardware transcoding
-    restart: unless-stopped  # autorestart on fail or config change from WebUI
     environment:
       - TZ=Asia/Novosibirsk  # timezone in logs
     volumes:
       - "~/.go2rtc:/config"   # folder for go2rtc.yaml file (edit from WebUI)
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.go2rtc.entrypoints=websecure
+      - traefik.http.routers.go2rtc.tls=true
+      - traefik.http.routers.go2rtc.tls.certResolver=letsencrypt
+      - traefik.http.services.go2rtc.loadbalancer.server.port=1984
+    networks:
+      - traefik
+    restart: unless-stopped  # autorestart on fail or config change from WebUI
 
   frigate:
     image: ghcr.io/blakeblackshear/frigate:stable
     container_name: frigate
     privileged: true # this may not be necessary for all setups
-    restart: unless-stopped
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ~/.frigate/config:/config
@@ -109,11 +125,15 @@ services:
         target: /tmp/cache
         tmpfs:
           size: 1000000000
-    ports:
-      - "5000:5000"
-      - "8554:8554" # RTSP feeds
-      - "8555:8555/tcp" # WebRTC over tcp
-      - "8555:8555/udp" # WebRTC over udp
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.frigate.entrypoints=websecure
+      - traefik.http.routers.frigate.tls=true
+      - traefik.http.routers.frigate.tls.certResolver=letsencrypt
+      - traefik.http.services.frigate.loadbalancer.server.port=5000
+    networks:
+      - traefik
+    restart: unless-stopped
 
   epicgames-freegames-node:
     image: ghcr.io/claabs/epicgames-freegames-node:latest
@@ -122,8 +142,14 @@ services:
       - TZ=Asia/Novosibirsk
     volumes:
       - ~/.epicgames/:/usr/app/config:rw
-    ports:
-      - 6079:3000
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.epicgames.entrypoints=websecure
+      - traefik.http.routers.epicgames.tls=true
+      - traefik.http.routers.epicgames.tls.certResolver=letsencrypt
+      - traefik.http.services.epicgames.loadbalancer.server.port=3000
+    networks:
+      - traefik
     restart: unless-stopped
     deploy:
       resources:
@@ -137,8 +163,14 @@ services:
       - TZ=Asia/Novosibirsk
     volumes:
       - ~/.hassio:/config
-    ports:
-      - 8124:8123
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.homeassistant-test.entrypoints=websecure
+      - traefik.http.routers.homeassistant-test.tls=true
+      - traefik.http.routers.homeassistant-test.tls.certResolver=letsencrypt
+      - traefik.http.services.homeassistant-test.loadbalancer.server.port=8123
+    networks:
+      - traefik
     restart: unless-stopped
 
 networks:
