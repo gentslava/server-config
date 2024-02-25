@@ -9,6 +9,7 @@ services:
       - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
       - ./traefik/dynamic.yml:/etc/traefik/dynamic/dynamic.yml:ro
       - ./traefik/acme.json:/acme.json
+      - ./traefik/access.log:/access.log
     ports:
       - 80:80
       - 443:443
