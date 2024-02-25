@@ -6,6 +6,8 @@ services:
     container_name: traefik
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
       - ./traefik/dynamic.yml:/etc/traefik/dynamic/dynamic.yml:ro
       - ./traefik/acme.json:/acme.json
@@ -57,10 +59,11 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Asia/Novosibirsk
       - AUTO_UPDATE=true
       - RUN_OPTS= #optional
     volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - ~/.jackett/config:/config
       - ~/.jackett/downloads:/downloads
     labels:
@@ -77,9 +80,9 @@ services:
     image: gentslava/jacred:latest
     container_name: jacred
     privileged: true
-    environment:
-      - TZ=Asia/Novosibirsk
     volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - ~/.jacred/init.conf:/home/jacred/init.conf
       - ~/.jacred/Data:/home/jacred/Data
     labels:
@@ -101,9 +104,9 @@ services:
     image: alexxit/go2rtc
     container_name: go2rtc
     privileged: true         # only for FFmpeg hardware transcoding
-    environment:
-      - TZ=Asia/Novosibirsk  # timezone in logs
     volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - "~/.go2rtc:/config"   # folder for go2rtc.yaml file (edit from WebUI)
     labels:
       - traefik.enable=true
@@ -120,6 +123,7 @@ services:
     container_name: frigate
     privileged: true # this may not be necessary for all setups
     volumes:
+      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - ~/.frigate/config:/config
       - ~/.frigate/media:/media/frigate
@@ -140,9 +144,9 @@ services:
   epicgames-freegames-node:
     image: ghcr.io/claabs/epicgames-freegames-node:latest
     container_name: epicgames-freegames
-    environment:
-      - TZ=Asia/Novosibirsk
     volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - ~/.epicgames/:/usr/app/config:rw
     labels:
       - traefik.enable=true
@@ -161,9 +165,9 @@ services:
   homeassistant:
     image: ghcr.io/home-assistant/home-assistant:latest
     container_name: homeassistant-test
-    environment:
-      - TZ=Asia/Novosibirsk
     volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - ~/.hassio:/config
     labels:
       - traefik.enable=true
