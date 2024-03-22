@@ -32,6 +32,22 @@ services:
       - traefik
     restart: unless-stopped
 
+  lampa:
+    image: gentslava/lampa:latest
+    container_name: lampa
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.lampa.entrypoints=websecure
+      - traefik.http.routers.lampa.tls=true
+      - traefik.http.routers.lampa.tls.certResolver=letsencrypt
+      - traefik.http.services.lampa.loadbalancer.server.port=80
+    networks:
+      - traefik
+    restart: unless-stopped
+
   torrserver:
     image: ghcr.io/yourok/torrserver
     container_name: torrserver
