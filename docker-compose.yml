@@ -114,46 +114,46 @@ services:
           cpus: '0.50'
           memory: 2G
 
-  go2rtc:
-    image: alexxit/go2rtc
-    container_name: go2rtc
-    privileged: true         # only for FFmpeg hardware transcoding
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-      - "~/.go2rtc:/config"   # folder for go2rtc.yaml file (edit from WebUI)
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.go2rtc.entrypoints=websecure
-      - traefik.http.routers.go2rtc.tls=true
-      - traefik.http.routers.go2rtc.tls.certResolver=letsencrypt
-      - traefik.http.services.go2rtc.loadbalancer.server.port=1984
-    networks:
-      - traefik
-    restart: unless-stopped  # autorestart on fail or config change from WebUI
+  # go2rtc:
+  #   image: alexxit/go2rtc
+  #   container_name: go2rtc
+  #   privileged: true         # only for FFmpeg hardware transcoding
+  #   volumes:
+  #     - /etc/timezone:/etc/timezone:ro
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - "~/.go2rtc:/config"   # folder for go2rtc.yaml file (edit from WebUI)
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.go2rtc.entrypoints=websecure
+  #     - traefik.http.routers.go2rtc.tls=true
+  #     - traefik.http.routers.go2rtc.tls.certResolver=letsencrypt
+  #     - traefik.http.services.go2rtc.loadbalancer.server.port=1984
+  #   networks:
+  #     - traefik
+  #   restart: unless-stopped  # autorestart on fail or config change from WebUI
 
-  frigate:
-    image: ghcr.io/blakeblackshear/frigate:stable
-    container_name: frigate
-    privileged: true # this may not be necessary for all setups
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-      - ~/.frigate/config:/config
-      - ~/.frigate/media:/media/frigate
-      - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
-        target: /tmp/cache
-        tmpfs:
-          size: 1000000000
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.frigate.entrypoints=websecure
-      - traefik.http.routers.frigate.tls=true
-      - traefik.http.routers.frigate.tls.certResolver=letsencrypt
-      - traefik.http.services.frigate.loadbalancer.server.port=5000
-    networks:
-      - traefik
-    restart: unless-stopped
+  # frigate:
+  #   image: ghcr.io/blakeblackshear/frigate:stable
+  #   container_name: frigate
+  #   privileged: true # this may not be necessary for all setups
+  #   volumes:
+  #     - /etc/timezone:/etc/timezone:ro
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - ~/.frigate/config:/config
+  #     - ~/.frigate/media:/media/frigate
+  #     - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
+  #       target: /tmp/cache
+  #       tmpfs:
+  #         size: 1000000000
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.frigate.entrypoints=websecure
+  #     - traefik.http.routers.frigate.tls=true
+  #     - traefik.http.routers.frigate.tls.certResolver=letsencrypt
+  #     - traefik.http.services.frigate.loadbalancer.server.port=5000
+  #   networks:
+  #     - traefik
+  #   restart: unless-stopped
 
   epicgames-freegames-node:
     image: ghcr.io/claabs/epicgames-freegames-node:latest
