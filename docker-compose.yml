@@ -63,6 +63,8 @@ services:
       - traefik.http.routers.torrserver.tls=true
       - traefik.http.routers.torrserver.tls.certResolver=letsencrypt
       - traefik.http.services.torrserver.loadbalancer.server.port=8090
+    ports:
+      - 8090:8090
     networks:
       - traefik
     restart: unless-stopped
@@ -176,22 +178,22 @@ services:
         limits:
           memory: 2G
 
-  homeassistant:
-    image: ghcr.io/home-assistant/home-assistant:latest
-    container_name: homeassistant-test
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-      - ~/.hassio:/config
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.homeassistant-test.entrypoints=websecure
-      - traefik.http.routers.homeassistant-test.tls=true
-      - traefik.http.routers.homeassistant-test.tls.certResolver=letsencrypt
-      - traefik.http.services.homeassistant-test.loadbalancer.server.port=8123
-    networks:
-      - traefik
-    restart: unless-stopped
+  # homeassistant:
+  #   image: ghcr.io/home-assistant/home-assistant:latest
+  #   container_name: homeassistant-test
+  #   volumes:
+  #     - /etc/timezone:/etc/timezone:ro
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - ~/.hassio:/config
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.homeassistant-test.entrypoints=websecure
+  #     - traefik.http.routers.homeassistant-test.tls=true
+  #     - traefik.http.routers.homeassistant-test.tls.certResolver=letsencrypt
+  #     - traefik.http.services.homeassistant-test.loadbalancer.server.port=8123
+  #   networks:
+  #     - traefik
+  #   restart: unless-stopped
 
 networks:
   traefik:
