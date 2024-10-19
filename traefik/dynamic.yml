@@ -10,7 +10,7 @@ http:
       tls:
         certResolver: letsencrypt
     homeassistant:
-      rule: Host(`homeassistant.{{ env "DOMAIN_NAME" }}`, `home.{{ env "DOMAIN_NAME" }}`)
+      rule: Host(`homeassistant.{{ env "DOMAIN_NAME" }}`) || Host(`home.{{ env "DOMAIN_NAME" }}`)
       service: hassio
       entryPoints:
         - websecure
