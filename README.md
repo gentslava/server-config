@@ -7,7 +7,7 @@ The setup includes a combination of tools and services aimed at enhancing home a
 **Included Services:**
 
 1. **Home Assistant**: Home automation platform for controlling smart home devices and automating tasks.
-   
+
 2. **go2rtc**: WebRTC server for real-time communication, facilitating video conferencing and peer-to-peer communication.
 
 3. **Frigate**: A lightweight surveillance solution designed for integration with Home Assistant, utilizing AI object detection for smart monitoring.
@@ -40,7 +40,7 @@ The setup includes a combination of tools and services aimed at enhancing home a
 4. **Deploy Services**:
    ```bash
    cd server-config
-   docker-compose up -d
+   docker compose up -d
    ```
 
 5. **Accessing Services**:
@@ -51,9 +51,9 @@ The setup includes a combination of tools and services aimed at enhancing home a
    - Pull the latest changes from this repository.
    - Recreate containers to apply changes:
      ```bash
-     docker-compose down
-     docker-compose pull
-     docker-compose up -d
+     docker compose down
+     docker compose pull
+     docker compose up -d
      ```
 
 **License:**
