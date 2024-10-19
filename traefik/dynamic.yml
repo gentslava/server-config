@@ -1,0 +1,33 @@
+http:
+  routers:
+    traefik:
+      rule: Host(`traefik.{{ env "DOMAIN_NAME" }}`)
+      service: api@internal
+      middlewares:
+        - dashboard-auth
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+    homeassistant:
+      rule: Host(`homeassistant.{{ env "DOMAIN_NAME" }}`, `home.{{ env "DOMAIN_NAME" }}`)
+      service: hassio
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+
+  middlewares:
+    dashboard-auth:
+      basicAuth:
+        users:
+
+  services:
+    api:
+      loadBalancer:
+        servers:
+          - url: http://traefik:8080
+    hassio:
+      loadBalancer:
+        servers:
+          - url: http://192.168.31.110:8123

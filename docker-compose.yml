@@ -2,6 +2,10 @@ services:
   traefik:
     image: traefik
     container_name: traefik
+    environment:
+      DOMAIN_NAME: ${DOMAIN_NAME}
+    healthcheck:
+      test: ['CMD', 'traefik', 'healthcheck', '--ping']
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/timezone:/etc/timezone:ro
@@ -194,6 +198,32 @@ services:
   #   networks:
   #     - traefik
   #   restart: unless-stopped
+
+  3x-ui:
+    image: ghcr.io/gentslava/3x-ui:v2.4.3
+    container_name: 3x-ui
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ~/.x-ui/db/:/etc/x-ui/
+    environment:
+      XRAY_VMESS_AEAD_FORCED: "false"
+    tty: true
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.3x-ui.entrypoints=websecure
+      - traefik.http.routers.3x-ui.tls=true
+      - traefik.http.routers.3x-ui.tls.certResolver=letsencrypt
+      - traefik.http.routers.3x-ui.rule=Host(`vpn-ru.${DOMAIN_NAME}`)
+      - traefik.http.services.3x-ui.loadbalancer.server.port=2053
+
+      - traefik.tcp.routers.vless.rule=HostSNIRegexp(`^(.+\.)?vk\.com$`)
+      - traefik.tcp.routers.vless.tls.passthrough=true
+      - traefik.tcp.routers.vless.service=vless-reality
+      - traefik.tcp.services.vless-reality.loadbalancer.server.port=443
+    networks:
+      - traefik
+    restart: unless-stopped
 
 networks:
   traefik:
