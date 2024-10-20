@@ -1,3 +1,4 @@
 # Logs
 access.log
 error.log
+db/
