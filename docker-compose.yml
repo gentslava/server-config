@@ -61,7 +61,7 @@ services:
       - TS_CONF_PATH=/opt/ts/config
       - TS_TORR_DIR=/opt/ts/torrents
     volumes:
-      - ~/.torrserver/:/opt/ts
+      - ./torrserver/:/opt/ts
     labels:
       - traefik.enable=true
       - traefik.http.routers.torrserver.entrypoints=websecure
@@ -85,8 +85,8 @@ services:
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-      - ~/.jackett/config:/config
-      - ~/.jackett/downloads:/downloads
+      - ./jackett/config:/config
+      - ./jackett/downloads:/downloads
     labels:
       - traefik.enable=true
       - traefik.http.routers.jackett.entrypoints=websecure
@@ -104,8 +104,8 @@ services:
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-      - ~/.jacred/init.conf:/home/jacred/init.conf
-      - ~/.jacred/Data:/home/jacred/Data
+      - ./jacred/init.conf:/home/jacred/init.conf
+      - ./jacred/Data:/home/jacred/Data
     labels:
       - traefik.enable=true
       - traefik.http.routers.jacred.entrypoints=websecure
@@ -128,7 +128,7 @@ services:
   #   volumes:
   #     - /etc/timezone:/etc/timezone:ro
   #     - /etc/localtime:/etc/localtime:ro
-  #     - "~/.go2rtc:/config"   # folder for go2rtc.yaml file (edit from WebUI)
+  #     - ./go2rtc:/config   # folder for go2rtc.yaml file (edit from WebUI)
   #   labels:
   #     - traefik.enable=true
   #     - traefik.http.routers.go2rtc.entrypoints=websecure
@@ -146,8 +146,8 @@ services:
   #   volumes:
   #     - /etc/timezone:/etc/timezone:ro
   #     - /etc/localtime:/etc/localtime:ro
-  #     - ~/.frigate/config:/config
-  #     - ~/.frigate/media:/media/frigate
+  #     - ./frigate/config:/config
+  #     - ./frigate/media:/media/frigate
   #     - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
   #       target: /tmp/cache
   #       tmpfs:
@@ -168,7 +168,7 @@ services:
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-      - ~/.epicgames/:/usr/app/config:rw
+      - ./epicgames/:/usr/app/config:rw
     labels:
       - traefik.enable=true
       - traefik.http.routers.epicgames.entrypoints=websecure
@@ -189,7 +189,7 @@ services:
   #   volumes:
   #     - /etc/timezone:/etc/timezone:ro
   #     - /etc/localtime:/etc/localtime:ro
-  #     - ~/.hassio:/config
+  #     - ./hassio:/config
   #   labels:
   #     - traefik.enable=true
   #     - traefik.http.routers.homeassistant-test.entrypoints=websecure
