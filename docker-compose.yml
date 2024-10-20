@@ -204,8 +204,8 @@ services:
     image: ghcr.io/gentslava/3x-ui:v2.4.3
     container_name: 3x-ui
     volumes:
-      - ./x-ui/access.log/:./access.log
-      - ./x-ui/error.log/:./error.log
+      - ./x-ui/access.log/:/app/access.log
+      - ./x-ui/error.log/:/app/error.log
       - ./x-ui/db/:/etc/x-ui/
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
