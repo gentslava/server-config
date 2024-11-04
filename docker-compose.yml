@@ -36,7 +36,7 @@ services:
     restart: unless-stopped
 
   lampa:
-    image: gentslava/lampa:latest
+    image: ghcr.io/gentslava/lampa:latest
     container_name: lampa
     volumes:
       - /etc/timezone:/etc/timezone:ro
