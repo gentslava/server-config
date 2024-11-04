@@ -201,7 +201,7 @@ services:
   #   restart: unless-stopped
 
   3x-ui:
-    image: ghcr.io/gentslava/3x-ui:v2.4.3
+    image: ghcr.io/mhsanaei/3x-ui:latest
     container_name: 3x-ui
     volumes:
       - /etc/timezone:/etc/timezone:ro
