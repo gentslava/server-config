@@ -229,6 +229,26 @@ services:
       - traefik
     restart: unless-stopped
 
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      LOG_LEVEL: info
+      LOG_HTML: false
+      CAPTCHA_SOLVER: none
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.frigate.entrypoints=websecure
+      - traefik.http.routers.frigate.tls=true
+      - traefik.http.routers.frigate.tls.certResolver=letsencrypt
+      - traefik.http.services.frigate.loadbalancer.server.port=8191
+    networks:
+      - traefik
+    restart: unless-stopped
+
 networks:
   traefik:
     name: traefik_proxy
