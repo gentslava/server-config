@@ -1,0 +1,4 @@
+streams:
+  eufy_corridor:
+    - rtsp://Qs8SWvtWNfAp:Po8gjBZcIsUK@192.168.31.17/live0
+    - ffmpeg:eufy_corridor#audio=aac#audio=opus  # optional audio transcoding
