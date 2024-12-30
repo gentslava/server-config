@@ -236,9 +236,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     environment:
-      LOG_LEVEL: info
-      LOG_HTML: false
-      CAPTCHA_SOLVER: none
+      - LOG_LEVEL=info
     labels:
       - traefik.enable=true
       - traefik.http.routers.frigate.entrypoints=websecure
