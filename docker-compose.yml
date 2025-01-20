@@ -130,7 +130,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./go2rtc:/config   # folder for go2rtc.yaml file (edit from WebUI)
     labels:
-      - traefik.enable=true
+      - traefik.enable=false
       - traefik.http.routers.go2rtc.entrypoints=websecure
       - traefik.http.routers.go2rtc.tls=true
       - traefik.http.routers.go2rtc.tls.certResolver=letsencrypt
@@ -153,7 +153,7 @@ services:
         tmpfs:
           size: 1000000000
     labels:
-      - traefik.enable=true
+      - traefik.enable=false
       - traefik.http.routers.frigate.entrypoints=websecure
       - traefik.http.routers.frigate.tls=true
       - traefik.http.routers.frigate.tls.certResolver=letsencrypt
@@ -183,22 +183,22 @@ services:
         limits:
           memory: 2G
 
-  homeassistant:
-    image: ghcr.io/home-assistant/home-assistant:latest
-    container_name: homeassistant-test
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-      - ./hassio:/config
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.homeassistant-test.entrypoints=websecure
-      - traefik.http.routers.homeassistant-test.tls=true
-      - traefik.http.routers.homeassistant-test.tls.certResolver=letsencrypt
-      - traefik.http.services.homeassistant-test.loadbalancer.server.port=8123
-    networks:
-      - traefik
-    restart: unless-stopped
+#  homeassistant:
+#    image: ghcr.io/home-assistant/home-assistant:latest
+#    container_name: homeassistant-test
+#    volumes:
+#      - /etc/timezone:/etc/timezone:ro
+#      - /etc/localtime:/etc/localtime:ro
+#      - ./hassio:/config
+#    labels:
+#      - traefik.enable=true
+#      - traefik.http.routers.homeassistant-test.entrypoints=websecure
+#      - traefik.http.routers.homeassistant-test.tls=true
+#      - traefik.http.routers.homeassistant-test.tls.certResolver=letsencrypt
+#      - traefik.http.services.homeassistant-test.loadbalancer.server.port=8123
+#    networks:
+#      - traefik
+#    restart: unless-stopped
 
   3x-ui:
     image: ghcr.io/gentslava/3x-ui:master
@@ -229,23 +229,23 @@ services:
       - traefik
     restart: unless-stopped
 
-  flaresolverr:
-    image: ghcr.io/flaresolverr/flaresolverr:latest
-    container_name: flaresolverr
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    environment:
-      - LOG_LEVEL=info
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.frigate.entrypoints=websecure
-      - traefik.http.routers.frigate.tls=true
-      - traefik.http.routers.frigate.tls.certResolver=letsencrypt
-      - traefik.http.services.frigate.loadbalancer.server.port=8191
-    networks:
-      - traefik
-    restart: unless-stopped
+#  flaresolverr:
+#    image: ghcr.io/flaresolverr/flaresolverr:latest
+#    container_name: flaresolverr
+#    volumes:
+#      - /etc/timezone:/etc/timezone:ro
+#      - /etc/localtime:/etc/localtime:ro
+#    environment:
+#      - LOG_LEVEL=info
+#    labels:
+#      - traefik.enable=true
+#      - traefik.http.routers.frigate.entrypoints=websecure
+#      - traefik.http.routers.frigate.tls=true
+#      - traefik.http.routers.frigate.tls.certResolver=letsencrypt
+#      - traefik.http.services.frigate.loadbalancer.server.port=8191
+#    networks:
+#      - traefik
+#    restart: unless-stopped
 
 networks:
   traefik:
